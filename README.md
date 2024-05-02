@@ -32,6 +32,27 @@ npm install
 
 The service uses dotenv to import variables into the environment and from the top level .env file (in the production dir), a variable HOST_CONFIGURATION is defined which points to a JSON file, defining port and host for the service itself. If multiple providers are desired, then the definition of HOST_CONFIGURATION should be moved to the provider level. At this time, we do not require multiple providers.
 
+### Required environment
+
+Source
+- Environment Variables 
+- .env file from the root directory
+
+ Key | Description | Default
+ --------:|-------------| --------
+DATABASE | | oai-publications
+COLLECTION | | Publications
+APP_ID | No Idea | oai-pmh-service
+DB_HOST | Database Hostname | none
+DB_PORT | Database Port | none
+DB_USER | Database Username | dacatDBAdmin
+DB_PASS | Database Password | none
+CONNECTOR |  | mongodb
+ADMIN_USER_EMAIL | | none
+LOG_LEVEL | | none  
+BASE_URL | | http://localhost
+
+ 
 ## Run It
 #### Run in *development* mode:
 
