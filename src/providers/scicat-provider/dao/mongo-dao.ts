@@ -9,29 +9,42 @@ import { getCollectionID } from "../../../server/env";
  * provided by the credentials file (path defined in .env).
  */
 export class MongoConnector {
+
   public static instance: MongoConnector;
   public db;
   public dbName: string;
   public collectionName: string;
+  public mongoDb: MongoClient ;
 
   private constructor() {
     logger.debug("Setting up the mongo connection.");
 
-    const user_url = process.env.DB_USER ? process.env.DB_USER + (
-      process.env.DB_PASS? ":" + process.env.DB_PASS : "" ) + "@" : ""
+    const user_url = process.env.DB_USER ? process.env.DB_USER + 
+                     ( process.env.DB_PASS ?   ":" + process.env.DB_PASS : "" ) 
+                     + "@" : ""
     const db_url = process.env.DATABASE ? "/" + process.env.DATABASE: "" 
-    const url = process.env.DB_URL || (user_url + process.env.DB_HOST + ":" + process.env.DB_PORT + db_url);
-    this.dbName = process.env.DATABASE;
-    this.collectionName = process.env.COLLECTION;
+    const url    = process.env.DB_URL || (user_url + process.env.DB_HOST + ":" + process.env.DB_PORT + db_url);
+    this.dbName  = process.env.DATABASE;
 
-    MongoClient.connect("mongodb://" + url, { useUnifiedTopology: true }, (err, client) => {
-      if (err) {
-        logger.error("failed to connect", err);
-        this.db = null;
-      }
-      this.db = client.db(this.dbName);
-    });
-  }
+    this.collectionName = process.env.COLLECTION;
+    const myUrl = "mongodb://" + url ;
+    console.log( "Using URL : "+myUrl );
+    this.mongoDb = new MongoClient(  myUrl );
+ 
+    this.mongoDb.connect()
+       .then( client => { 
+                 this.db = client ; 
+                 logger.debug(client) ; 
+              }
+            ) 
+       .catch( 
+          error => {
+             logger.error("Failed to connect to "+url+" : ", error);
+             this.db = null; 
+          }
+       );
+
+  }  
 
   public static getInstance(): MongoConnector {
     try {
@@ -50,9 +63,9 @@ export class MongoConnector {
    * @param parameters
    * @returns {Promise<any>}
    */
-  public recordsQuery(parameters: any, filter: MongoClient.filter): Promise<any> {
+  public recordsQuery(parameters: any, filter: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection recordsQuery");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {
@@ -71,9 +84,9 @@ export class MongoConnector {
    * @param parameters
    * @returns {Promise<any>}
    */
-  public identifiersQuery(parameters: any, filter: MongoClient.filter): Promise<any> {
+  public identifiersQuery(parameters: any, filter: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection identifiersQuery");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {
@@ -93,9 +106,9 @@ export class MongoConnector {
    * @param parameters
    * @returns {Promise<any>}
    */
-  public getRecord(parameters: any, filter: MongoClient.filter): Promise<any> {
+  public getRecord(parameters: any, filter: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection getRecord");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {
@@ -116,7 +129,7 @@ export class MongoConnector {
 
   private aggregatePublicationQuery(pipeline: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection aggregatePublicationQuery");
     }
     var collection = this.db.collection(this.collectionName);
     var resolve = null;
@@ -133,7 +146,7 @@ export class MongoConnector {
 
   public putPublication(parameters: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection putPublication");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {
@@ -149,7 +162,7 @@ export class MongoConnector {
 
   public updatePublication(parameters: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection updatePublication");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {
@@ -165,7 +178,7 @@ export class MongoConnector {
 
   public countPublication(parameters: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection countPublication");
     }
 
     let Publication = this.db.collection(this.collectionName);
@@ -183,7 +196,7 @@ export class MongoConnector {
   // supports skip and limit
   public getPublication(query: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection getPublication");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {
@@ -234,7 +247,7 @@ export class MongoConnector {
 
   public findPublication(query: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection");
+      reject("no db connection findPublication");
     }
     let Publication = this.db.collection(this.collectionName);
     return new Promise((resolve: any, reject: any) => {

@@ -27,6 +27,8 @@ import './server/env';
 import Server from './server/server';
 import routes from './server/routes';
 
+console.error("Start Server")
+
 export default new Server()
   .router(routes)
   .listen();

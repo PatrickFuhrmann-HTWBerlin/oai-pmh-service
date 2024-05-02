@@ -144,7 +144,7 @@ export interface DataRepository {
  * Parameters for OAI list requests (ListRecords and ListIdentifiers).
  */
 export interface ListParameters {
-    metadataPrefix: string;
+    metadataPrefix?: string;
     from?: string;
     until?: string;
     set?: string;
@@ -155,8 +155,8 @@ export interface ListParameters {
  * The parameters required by OAI GetRecord requests.
  */
 export interface RecordParamters {
-    identifier: string;
-    metadataPrefix: string;
+    identifier?: string;
+    metadataPrefix?: string;
 }
 
 /**

@@ -25,6 +25,14 @@
 
 import * as dotenv from 'dotenv';
 
-dotenv.config({path: __dirname + '/.env'});
+// const dotenv_path =  __dirname + '/.env'
+// console.log("Trying to load dotenv : "+dotenv_path);
+// dotenv.config({path: dotenv_path });
+dotenv.config();
+
+console.log("Environment Variables:");
+Object.keys(process.env).forEach(key => {
+    console.log(`${key}: ${process.env[key]}`);
+});
 
 export const getCollectionID = () => (process.env.COLLECTION_ID || 'doi');
