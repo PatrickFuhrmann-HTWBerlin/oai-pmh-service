@@ -77,7 +77,7 @@ COLLECTION | Collection to storage Publation Documents| Publications
 
 ## Run It
 ```
-node src/indezx
+node src/indez
 ```
 
 ## Run It
