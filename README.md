@@ -79,9 +79,9 @@ COLLECTION | Collection to storage Publation Documents| Publications
  --------:|-------------| --------
 HOST_CONFIGURATION | web server configuration | production/host_config.json
 
-The content of the *host_config.json* is json encoded variables to steer the web server. 
-As far as I see, the 'host' variable is ignored but the 'port' variable is honoure.
-Example:
+The content of the *host_config.json* file are the json encoded variables to steer the web server itself. 
+As far as I can see, the 'host' variable is ignored in the code, but the 'port' variable is honored.
+**Example** for a *host_config.json* file.
 ```
 {
    "host": "localhost",
