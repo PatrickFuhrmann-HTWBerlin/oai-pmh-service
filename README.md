@@ -45,31 +45,47 @@ The service uses dotenv to import variables into the environment and from the to
 ### Required environment
 
 Source
-- Environment Variables 
-- .env file from the root directory
+- Environment Variables
+   - from OS
+   - from docker -e KEY=Value options
+   - from docker-compose 'environment' section
+- .env file in the root directory of the project.
+  - entries in the .env file won't overwrite the Environment Variable (above)
+
+**System variables**
+ Key | Description | Default
+ --------:|-------------| --------
+DAPP_ID | No Idea | oai-pmh-service
+CONNECTOR | (don't change) | mongodb
+ADMIN_USER_EMAIL | E-Mail address of the admin user | none
+LOG_LEVEL | default/error/warning | none  
+
+**Mongo DB variables**
 
  Key | Description | Default
  --------:|-------------| --------
-DATABASE | | oai-publications
-COLLECTION | | Publications
-APP_ID | No Idea | oai-pmh-service
+CONNECTOR | (don't change) | mongodb
 DB_HOST | Database Hostname | none
 DB_PORT | Database Port | none
-DB_USER | Database Username | dacatDBAdmin
+DB_USER | Database Username | none
 DB_PASS | Database Password | none
-CONNECTOR |  | mongodb
-ADMIN_USER_EMAIL | | none
-LOG_LEVEL | | none  
-BASE_URL | | http://localhost
+DABASE_URL |  <host>:<port>/<dbName>| none
+DATABASE | Publication Database | oai-publications
+COLLECTION | Collection to storage Publation Documents| Publications
 
- 
+**Note**: When DATABASE_URL is specified, DB_HOST/DB_PORT/DB_USER/DB_PASS are ignored.
+
 ## Run It
-#### Run in *development* mode:
-
 ```
 node src/indezx
 ```
 
+## Run It
+#### Run in *development* mode:
+
+```
+node_modules/.bin/rsc
+``
 #### Routes:
 
 The Express server will start on default port 3000.  
