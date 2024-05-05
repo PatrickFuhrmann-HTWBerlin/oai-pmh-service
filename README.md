@@ -61,7 +61,6 @@ ADMIN_USER_EMAIL | E-Mail address of the admin user | none
 LOG_LEVEL | default/error/warning | none  
 
 **Mongo DB variables**
-
  Key | Description | Default
  --------:|-------------| --------
 CONNECTOR | (don't change) | mongodb
@@ -74,6 +73,21 @@ DATABASE | Publication Database | oai-publications
 COLLECTION | Collection to storage Publation Documents| Publications
 
 **Note**: When DB_URL is specified, DB_HOST/DB_PORT/DB_USER/DB_PASS and DATABASE are ignored.
+
+**Mongo DB variables**
+ Key | Description | Default
+ --------:|-------------| --------
+HOST_CONFIGURATION | web server configuration | production/host_config.json
+
+The content of the *host_config.json* is json encoded variables to steer the web server. 
+As far as I see, the 'host' variable is ignored but the 'port' variable is honoure.
+Example:
+```
+{
+   "host": "localhost",
+    "port": 3000
+}
+```
 
 ## Compile It
 ```
