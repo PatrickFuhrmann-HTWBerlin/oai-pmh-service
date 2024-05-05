@@ -75,16 +75,15 @@ COLLECTION | Collection to storage Publation Documents| Publications
 
 **Note**: When DB_URL is specified, DB_HOST/DB_PORT/DB_USER/DB_PASS and DATABASE are ignored.
 
-## Run It
-```
-node src/indez
-```
-
-## Run It
-#### Run in *development* mode:
-
+## Compile It
 ```
 node_modules/.bin/rsc
+```
+
+## Run It
+
+```
+node src/index
 ``
 #### Routes:
 
