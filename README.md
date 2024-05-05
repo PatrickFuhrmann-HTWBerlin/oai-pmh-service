@@ -80,11 +80,25 @@ COLLECTION | Collection to storage Publation Documents| Publications
 node_modules/.bin/rsc
 ```
 
-## Run It
+## Run It Locally
 
+- Copy the EXAMPLE_ENV file to '.env'
+- Customize the '.env' file to your needs.
+  
 ```
 node src/index
-``
+```
+
+## Create a docker container
+
+- Customize the EXAMPLE_ENV file.
+- The file will be copied to '.env' within the container.
+- Variables can be overwritten via '-e' in 'docker run ...' or in the 'environment section' of docker-compose.yaml
+  
+```
+docker build -t oai-pmh-service .
+```
+
 #### Routes:
 
 The Express server will start on default port 3000.  
@@ -102,13 +116,6 @@ Add new records to your mongodb instance by HTTP PUT using the following route:
 * `http://localhost:3000/scicat/Publication`
 
 
-## Run in *production* mode:
-
-At the simplest level:
-```
-npm run compile
-npm start
-```
 
 The project can be deployed to a production server and started with `node index` from within `dist`. Runtime configurations
 can be adjusted using `.env` and (recommended) external configuration files created for your environment. We typically run as server daemon using [forever](https://github.com/foreverjs/forever), or some tool 
