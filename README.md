@@ -69,11 +69,11 @@ DB_HOST | Database Hostname | none
 DB_PORT | Database Port | none
 DB_USER | Database Username | none
 DB_PASS | Database Password | none
-DABASE_URL |  <host>:<port>/<dbName>| none
+DB_URL |  [&lt;user&gt;:&lt;password&gt;@]&lt;host&gt;:&lt;port&gt;/&lt;dbName&gt;| none
 DATABASE | Publication Database | oai-publications
 COLLECTION | Collection to storage Publation Documents| Publications
 
-**Note**: When DATABASE_URL is specified, DB_HOST/DB_PORT/DB_USER/DB_PASS are ignored.
+**Note**: When DB_URL is specified, DB_HOST/DB_PORT/DB_USER/DB_PASS and DATABASE are ignored.
 
 ## Run It
 ```
