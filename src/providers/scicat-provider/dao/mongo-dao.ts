@@ -19,22 +19,27 @@ export class MongoConnector {
   private constructor() {
     logger.debug("Setting up the mongo connection.");
 
-    const user_url = process.env.DB_USER ? process.env.DB_USER + 
-                     ( process.env.DB_PASS ?   ":" + process.env.DB_PASS : "" ) 
-                     + "@" : ""
+    const user_url = process.env.DB_USER 
+                       ?
+                          process.env.DB_USER + 
+                             ( process.env.DB_PASS ?   ":" + process.env.DB_PASS : "" ) + "@" 
+                       :
+                        "" ;
     const db_url = process.env.DATABASE ? "/" + process.env.DATABASE: "" 
     const url    = process.env.DB_URL || (user_url + process.env.DB_HOST + ":" + process.env.DB_PORT + db_url);
-    this.dbName  = process.env.DATABASE;
 
+    this.dbName         = process.env.DATABASE;
     this.collectionName = process.env.COLLECTION;
+
     const myUrl = "mongodb://" + url ;
-    console.log( "Using URL : "+myUrl );
+    logger.debug( "Using URL : "+myUrl );
+
     this.mongoDb = new MongoClient(  myUrl );
- 
+     
     this.mongoDb.connect()
        .then( client => { 
                  this.db = client ; 
-                 logger.debug(client) ; 
+                 logger.debug("Client succefully connected to: "+myUrl) ; 
               }
             ) 
        .catch( 
