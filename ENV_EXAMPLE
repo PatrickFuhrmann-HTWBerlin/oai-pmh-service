@@ -3,7 +3,6 @@ APP_ID=oai-pmh-service
 BASE_URL=http://localhost
 LOG_LEVEL=debug
 REQUEST_LIMIT=100kb
-MASTER_ENV_FILE=oai-providerservice/.env
 DB_HOST=localhost
 DB_PORT=27017
 DB_USER=
