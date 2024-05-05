@@ -1,4 +1,4 @@
-# OAI-PMH Service
+# The HTW SoSe 2024 OAI-PMH Service
 
 **This repositery is a simplified version of the orignal. It is for educational purposed only.**
 
