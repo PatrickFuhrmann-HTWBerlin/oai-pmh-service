@@ -91,7 +91,7 @@ As far as I can see, the 'host' variable is ignored in the code, but the 'port' 
 
 ## Compile It
 ```
-node_modules/.bin/rsc
+node_modules/.bin/tsc
 ```
 
 ## Run It Locally
@@ -115,7 +115,7 @@ docker build -t oai-pmh-service .
 
 #### Routes:
 
-The Express server will start on default port 3000.  
+The Express server will start on default port 3000 or whatever is specified in the *host_config.json* file.
 
 * [`http://localhost:3000/scicat/oai?verb=Identify`](http://localhost:3000/scicat/oai?verb=Identify)
 * [`http://localhost:3000/scicat/oai?verb=ListMetadataFormats`](http://localhost:3000/scicat/oai?verb=ListMetadataFormats)
