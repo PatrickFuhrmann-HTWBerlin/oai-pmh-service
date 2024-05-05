@@ -1,5 +1,7 @@
 # OAI-PMH Service
 
+**This repositery is a simplified version of the orignal. It is for educational purposed only.**
+
 [![Build Status](https://github.com/SciCatProject/oai-provider-service/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SciCatProject/oai-provider-service/actions)
 [![DeepScan grade](https://deepscan.io/api/teams/8394/projects/10552/branches/148053/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=8394&pid=10552&bid=148053)
 [![Known Vulnerabilities](https://snyk.io/test/github/SciCatProject/oai-provider-service/master/badge.svg?targetFile=package.json)](https://snyk.io/test/github/SciCatProject/oai-provider-service/master?targetFile=package.json)
@@ -12,13 +14,17 @@ OAI-PMH Service is a Nodejs Express application that supports multiple, configur
 
 OAI-PMH Service borrows from the [Modular OAI-PMH Server](https://github.com/NatLibFi/oai-pmh-server), University of Helsinki, 
 The National Library of Finland. 
- 
+
+## Changes
+* All packages have been updated to the most recent version (as of May 2024)
+* The mongodb driver code was updated to support the acync 'connect' operation.
+* Some inferfaces, assigned to the http request class, has been updated. **Note**: Those changes might not be very good but work for now.
 
 ## Dependenices
 
-* Node 8.9.4+
-* Typescript 2.7.2+
-* npm 5.6.0+
+* Node v22.0.0+
+* Typescript 5.4.5+
+* npm 10.5.1+
 
 ## Capabilities
 
@@ -59,7 +65,7 @@ BASE_URL | | http://localhost
 #### Run in *development* mode:
 
 ```
-npm run dev
+node src/indezx
 ```
 
 #### Routes:
@@ -86,8 +92,6 @@ At the simplest level:
 npm run compile
 npm start
 ```
-
-The gulp tasks compile Typescript and copy files to `dist`. 
 
 The project can be deployed to a production server and started with `node index` from within `dist`. Runtime configurations
 can be adjusted using `.env` and (recommended) external configuration files created for your environment. We typically run as server daemon using [forever](https://github.com/foreverjs/forever), or some tool 
