@@ -7,6 +7,6 @@ COPY . /home/node/app/
 COPY ENV_EXAMPLE /home/node/app/.env
 
 RUN npm install
-RUN ./node_modules/.bin/tsc 
+RUN ./node_modules/.bin/tsc src/index
 
 CMD ["node", "src/index.js"]
