@@ -206,7 +206,7 @@ export class CoreOaiProvider {
      */
     listMetadataFormats(query: MetadataFormatParameters): Promise<string> {
 
-        logger.debug('ListMetadataFormats');
+        logger.debug('ListMetadataFormats (core)',query);
 
         return new Promise((resolve: any, reject: any) => {
             const queryParameters = this.getQueryParameters(query);
@@ -252,7 +252,7 @@ export class CoreOaiProvider {
      */
     getRecord(query: RecordParamters): Promise<string> {
 
-        logger.debug('GetRecord');
+        logger.debug('GetRecord  (core)',query);
         return new Promise((resolve: any, reject: any) => {
             const queryParameters = this.getQueryParameters(query);
             const exception: ExceptionParams = {
@@ -299,7 +299,7 @@ export class CoreOaiProvider {
      */
     listIdentifiers(query: ListParameters): Promise<string> {
 
-        logger.debug('ListIdentifiers');
+        logger.debug('ListIdentifiers (core)',query);
 
         return new Promise((resolve: any, reject: any) => {
 
@@ -361,7 +361,7 @@ export class CoreOaiProvider {
      */
     listRecords(query: ListParameters): Promise<any> {
 
-        logger.debug('ListRecords', query);
+        logger.debug('ListRecords (core)', query);
 
         return new Promise((resolve: any, reject: any) => {
                 const queryParameters = this.getQueryParameters(query);
@@ -424,7 +424,7 @@ export class CoreOaiProvider {
      */
     identify(query: any): Promise<any> {
 
-        logger.debug("Identify");
+        logger.debug("Identify (core)",query);
 
         return new Promise((resolve: any, reject: any) => {
             const queryParameters = this.getQueryParameters(query);
