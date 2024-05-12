@@ -58,7 +58,7 @@ export let oai = (req: Request, res: Response) => {
             break;
 
         case 'ListIdentifiers':
-            logger.debug('ListIdentifiers request.');
+            logger.debug('ListIdentifiers request (panosc).'+req.query);
             provider.listIdentifiers(req.query)
                 .then((response) => {
                     res.send(response)

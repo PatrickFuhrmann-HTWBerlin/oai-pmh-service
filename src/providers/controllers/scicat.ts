@@ -66,7 +66,7 @@ export let oai = (req: Request, res: Response) => {
       break;
 
     case "ListIdentifiers":
-      logger.debug("ListIdentifiers request.");
+      logger.debug("ListIdentifiers request (scicat)."+JSON.stringify(req.query));
       provider
         .listIdentifiers(req.query)
         .then((response) => {

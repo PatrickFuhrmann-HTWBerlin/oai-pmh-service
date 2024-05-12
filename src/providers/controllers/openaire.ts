@@ -32,7 +32,7 @@ export let oai = (req: Request, res: Response) => {
     switch (req.query.verb) {
 
         case 'Identify':
-            logger.debug('Identify request.');
+            logger.debug('Identify request (openaire).');
             provider.identify(req.query)
                 .then((response) => {
                     res.send(response);
@@ -45,7 +45,7 @@ export let oai = (req: Request, res: Response) => {
             break;
 
         case 'ListMetadataFormats':
-            logger.debug('ListMetadataFormats request.');
+            logger.debug('ListMetadataFormats request (openaire).');
             provider.listMetadataFormats(req.query)
                 .then((response) => {
                     res.send(response);
@@ -58,7 +58,7 @@ export let oai = (req: Request, res: Response) => {
             break;
 
         case 'ListIdentifiers':
-            logger.debug('ListIdentifiers request.');
+            logger.debug('ListIdentifiers request (openaire).'+req.query);
             provider.listIdentifiers(req.query)
                 .then((response) => {
                     res.send(response)
@@ -71,7 +71,7 @@ export let oai = (req: Request, res: Response) => {
             break;
 
         case 'ListRecords':
-            logger.debug('ListRecords request.');
+            logger.debug('ListRecords request (openaire).');
             provider.listRecords(req.query)
                 .then((response) => {
                     res.send(response)
@@ -84,7 +84,7 @@ export let oai = (req: Request, res: Response) => {
             break;
 
         case 'ListSets':
-            logger.debug('ListSet request.');
+            logger.debug('ListSet request (openaire).');
             provider.listSets(req.query)
                 .then((response) => {
                     res.send(response)
@@ -96,7 +96,7 @@ export let oai = (req: Request, res: Response) => {
             break;
 
         case 'GetRecord':
-            logger.debug('GetRecord request.');
+            logger.debug('GetRecord request (openaire).');
             provider.getRecord(req.query)
                 .then((response) => {
                     res.send(response)
