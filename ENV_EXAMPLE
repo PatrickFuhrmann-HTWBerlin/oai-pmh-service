@@ -1,4 +1,5 @@
-HOST_CONFIGURATION=production/host_config.json
+#HOST_CONFIGURATION=production/host_config.json
+REST_PORT=3001
 APP_ID=oai-pmh-service
 BASE_URL=http://localhost
 LOG_LEVEL=debug
