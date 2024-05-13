@@ -86,10 +86,9 @@ export default class ExpressServer {
     if (hasHostConfigurationFile()) {
       return getHostConfiguration();
     } else {
-      logger.warn(
-        "No configuration provided. Using default port. See documentation for details."
-      );
-      return { port: 3000 };
+      logger.warn( "No configuration provided. Trying REST_PORT (Def: 3000)");
+      const listen_port = process.env.REST_PORT ? process.env.REST_PORT : 3000;
+      return { port: listen_port };
     }
   }
 
