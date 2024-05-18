@@ -24,9 +24,10 @@
  */
 
 import { Application } from "express";
-import * as scicat from "../providers/controllers/scicat";
-import * as panosc from "../providers/controllers/panosc";
+import * as scicat   from "../providers/controllers/scicat";
+import * as panosc   from "../providers/controllers/panosc";
 import * as openaire from "../providers/controllers/openaire";
+import * as generic  from "../providers/controllers/generic";
 import logger from "./logger";
 
 export default function routes(app: Application): void {
@@ -46,4 +47,5 @@ export default function routes(app: Application): void {
   app.get('/scicat/Publication', scicat.getPublication);
   app.get('/panosc/oai', panosc.oai);
   app.get('/openaire/oai', openaire.oai);
+  app.get('/generic/oai', generic.oai);
 };
