@@ -62,6 +62,9 @@ export class Exceptions  {
             case EXCEPTION_CODES.NO_SET_HIERARCHY: {
                 return ExceptionMessages.NO_SET_HEIRARCHY;
             }
+            case EXCEPTION_CODES.TECHNICAL_PROBLEM: {
+                return ExceptionMessages.TECHNICAL_PROBLEM;
+            }
             default: {
                 return this.UNKNOWN_CODE;
             }

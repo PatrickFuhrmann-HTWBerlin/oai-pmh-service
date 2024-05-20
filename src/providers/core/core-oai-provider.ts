@@ -124,7 +124,8 @@ export enum EXCEPTION_CODES {
     ID_DOES_NOT_EXIST = "idDoesNotExist",
     NO_RECORDS_MATCH = "noRecordsMatch",
     NO_METADATA_FORMATS = "noMetadataFormats",
-    NO_SET_HIERARCHY = "noSetHierarchy"
+    NO_SET_HIERARCHY = "noSetHierarchy",
+    TECHNICAL_PROBLEM = "technicalIssue"
 }
 
 /**
@@ -286,7 +287,7 @@ export class CoreOaiProvider {
                     .catch((err: Error) => {
                         logger.error(err);
                         // If dao query errs, return OAI error.
-                        reject(generateException(exception, EXCEPTION_CODES.ID_DOES_NOT_EXIST));
+                        reject(generateException(exception, EXCEPTION_CODES.TECHNICAL_PROBLEM));
                     });
             }
         });
@@ -344,9 +345,10 @@ export class CoreOaiProvider {
 
                 })
                 .catch((err: Error) => {
+                    logger.debug("Error in core-oai-provider:listIdentifiers: "+JSON.stringify(err)); 
                     logger.error(err);
-                    // If dao query fails, return OAI error.
-                    reject(generateException(exception, EXCEPTION_CODES.NO_RECORDS_MATCH));
+                    // If dao query fails, return OAI error. !!! Better would be to report a technical error.
+                    reject(generateException(exception, EXCEPTION_CODES.TECHNICAL_PROBLEM));
                 });
 
 
@@ -409,7 +411,7 @@ export class CoreOaiProvider {
                     .catch((err: Error) => {
                         logger.error(err);
                         // If dao query fails, return OAI error.
-                        reject(generateException(exception, EXCEPTION_CODES.NO_RECORDS_MATCH));
+                        reject(generateException(exception, EXCEPTION_CODES.TECHNICAL_PROBLEM));
 
                     });
 

@@ -19,14 +19,12 @@ export class MongoConnector {
   private constructor() {
     logger.debug("Setting up the mongo connection.");
 
-    const user_url = process.env.DB_USER 
-                       ?
-                          process.env.DB_USER + 
-                             ( process.env.DB_PASS ?   ":" + process.env.DB_PASS : "" ) + "@" 
-                       :
-                        "" ;
+    const pass     = process.env.DB_PASS  ?   ":" + process.env.DB_PASS : "" ;
+    const user_url =  process.env.DB_USER ?  process.env.DB_USER + pass + "@" : "" ;
+
     const db_url = process.env.DATABASE ? "/" + process.env.DATABASE: "" 
-    const url    = process.env.DB_URL || (user_url + process.env.DB_HOST + ":" + process.env.DB_PORT + db_url);
+    const url    = process.env.DB_URL || 
+                   (user_url + process.env.DB_HOST + ":" + process.env.DB_PORT + db_url);
 
     this.dbName         = process.env.DATABASE;
     this.collectionName = process.env.COLLECTION;
@@ -43,7 +41,7 @@ export class MongoConnector {
           }
        ).catch(
           error => {
-             logger.error("Failed to connect to "+url+" : ", error);
+             logger.error("Failed to connect to "+url+" : "+error.message);
              this.db = null; 
           }
        );
@@ -71,11 +69,10 @@ export class MongoConnector {
     logger.debug("recordsQuery Parameter: "+JSON.stringify(parameters));
     logger.debug("recordsQuery Filter: "+JSON.stringify(filter));
     if (!this.db) {
-      reject("No db connection in 'recordsQuery'");
+      return reject("No db connection in 'recordsQuery'");
     }
     let Publication = this.db.collection(this.collectionName);
-    let p = await Publication.find( {} /* filter */).toArray();
-    return p
+    return await Publication.find( filter ).toArray();
   }
   /**
    * Responds to OAI ListIdentifiers requests.
@@ -86,15 +83,10 @@ export class MongoConnector {
     logger.debug("identifiersQuery Parameter: "+JSON.stringify(parameters));
     logger.debug("identifiersQuery Filter: "+JSON.stringify(filter));
     if (!this.db) {
-      reject("No db connection in 'identifiersQuery'");
+      return reject("No db connection in 'identifiersQuery'");
     }
-    try{
-      let Publication = this.db.collection(this.collectionName);
-      let p = await Publication.find(  {} /* filter , { _id: 1 } */).toArray();
-      return p ;
-    }catch( error ){
-      logger.error("Error in list : "+error);
-    }
+    let Publication = this.db.collection(this.collectionName);
+    return await Publication.find(   filter  /* , { _id: 1 } */  ).toArray();
   }
   /**
    * Responds to OAI GetRecord requests.
@@ -105,21 +97,20 @@ export class MongoConnector {
     logger.debug("getRecord Parameter: "+JSON.stringify(parameters));
     logger.debug("getRecord Filter: "+JSON.stringify(filter));
     if (!this.db) {
-      reject("No db connection in 'getRecord'");
+      return reject("No db connection in 'getRecord'");
     }
     const query = {$and: [
         {[`${getCollectionID()}`]: parameters.identifier},
-        {} /* filter */,
+        filter ,
       ]
     };
     let Publication = this.db.collection(this.collectionName);
-    let p = await  Publication.findOne(query, {} );
-    return p
+    return await Publication.findOne(query, {} );
   }
 
   private aggregatePublicationQuery(pipeline: any): Promise<any> {
     if (!this.db) {
-      reject("No db connection in 'aggregatePublicationQuery'");
+      return reject("No db connection in 'aggregatePublicationQuery'");
     }
     var collection = this.db.collection(this.collectionName);
     var resolve = null;
@@ -136,39 +127,24 @@ export class MongoConnector {
 
   public putPublication(parameters: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection putPublication");
+      return reject("No db connection 'putPublication'");
     }
     let Publication = this.db.collection(this.collectionName);
-    return new Promise((resolve: any, reject: any) => {
-      Publication.insertOne(parameters, {}, function(err, item) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(item);
-        }
-      });
-    });
+    
+    return Publication.insertOne(parameters, {} );
   }
 
   public updatePublication(parameters: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection updatePublication");
+      return reject("No db connection in 'updatePublication'");
     }
     let Publication = this.db.collection(this.collectionName);
-    return new Promise((resolve: any, reject: any) => {
-      Publication.updateOne({ doi: parameters.doi }, {$set: parameters.body }, function(err, item) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(item);
-        }
-      });
-    });
+    return Publication.updateOne(  { doi: parameters.doi }, {$set: parameters.body } );
   }
 
   public async countPublication(parameters: any): Promise<any> {
     if (!this.db) {
-      reject("No db connection in 'countPublication'");
+      return reject("No db connection in 'countPublication'");
     }
 
     let Publication = this.db.collection(this.collectionName);
@@ -177,43 +153,36 @@ export class MongoConnector {
   }
 
   // supports skip and limit
-  public getPublication(query: any): Promise<any> {
+  public async getPublication(query: any): Promise<any> {
     if (!this.db) {
-      reject("No db connection in 'getPublication'");
+      return reject("No db connection in 'getPublication'");
     }
+
     let Publication = this.db.collection(this.collectionName);
-    return new Promise((resolve: any, reject: any) => {
-      let skip = 0;
-      let limit = 0;
-      let sort: any;
-      if (query && query.skip) {
-        skip = parseInt(query.skip);
-      }
-      if (query && query.limit) {
-        limit = parseInt(query.limit);
-      }
-      if (query && query.sortField) {
-        const sortDirectionInt = query.sortDirection === "asc" ? 1 : -1;
-        sort = '{ "' + query.sortField + '" : ' + sortDirectionInt + '}';
-        sort = JSON.parse(sort);
-      }
 
-      const project = this.projectFields(query);
+    let skip = 0;
+    let limit = 0;
+    let sort: any;
+    if (query && query.skip) {
+      skip = parseInt(query.skip);
+    }
+    if (query && query.limit) {
+      limit = parseInt(query.limit);
+    }
+    if (query && query.sortField) {
+      const sortDirectionInt = query.sortDirection === "asc" ? 1 : -1;
+      sort = '{ "' + query.sortField + '" : ' + sortDirectionInt + '}';
+      sort = JSON.parse(sort);
+    }
 
-      Publication.find()
+    const project = this.projectFields(query);
+
+    return await Publication.find()
         .skip(skip)
         .limit(limit)
         .sort(sort)
         .project(project)
-        .toArray(function(err, result) {
-          if (err) {
-            logger.debug("Mongo Error. ", err);
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        });
-    });
+        .toArray() ;
   }
 
   private projectFields(query: any) {
@@ -230,17 +199,10 @@ export class MongoConnector {
 
   public findPublication(query: any): Promise<any> {
     if (!this.db) {
-      reject("no db connection findPublication");
+      return reject("No db connection in 'findPublication'");
     }
     let Publication = this.db.collection(this.collectionName);
-    return new Promise((resolve: any, reject: any) => {
-      Publication.findOne({ doi: query }, {}, function(err, item) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(item);
-        }
-      });
-    });
+  
+    return Publication.findOne( { doi: query } , {} );
   }
 }

@@ -37,5 +37,6 @@ export enum ExceptionMessages {
     NO_RECORDS_MATCH = 'The combination of the values of the from, until, set and metadataPrefix arguments results in an empty list.',
     NO_METADATA_FORMATS = 'There are no metadata formats available for the specified item.',
     NO_SET_HEIRARCHY = 'The repository does not support sets.',
+    TECHNICAL_PROBLEM = 'A technical problem was encountered, e.g. Lost DB Connection',
     UNKNOWN_CODE = 'unknown'
 }
