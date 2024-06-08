@@ -94,5 +94,48 @@ Now the infrastructure is fine, but if you try to compile you will find that the
 ```
 npm run compile
 ```
+The compiler will complain about mongodb.ts
 ## Fix the mongo code (formally)
+In the constructor of *src/providers/scicat-provider/dao/mongo-dao.ts* add this line
+```
+public mongoDb: MongoClient ;
+```
+and replace this code
+```
+     MongoClient.connect("mongodb://" + url, { useUnifiedTopology: true }, (err, client) => {
+       if (err) {
+         logger.error("failed to connect", err);
+         this.db = null;
+       }
+       this.db = client.db(this.dbName);
+     });
+```
+by this 
+```
+     const  myUrl = "mongodb://"+url ;
+     this.mongoDb = new MongoClient(  myUrl );
+  
+     this.mongoDb.connect()
+        .then( client => {
+             this.db = client.db(this.dbName) ;
+             logger.debug("Client succefully connected to: "+myUrl) ;
+           }
+        ).catch(
+           error => {
+              logger.error("Failed to connect to "+url+" : "+error.message);
+              this.db = null;
+           }
+        );
+```
+Finally replace 
+```
+filter: MongoClient.filter
+```
+by 
+```
+filter: any
+```
+in the argument list of *recordsQuery*, *identifiersQuery* and *getRecord*.
+## Compile again
+Now it should compile.
 
