@@ -31,6 +31,7 @@ npm install cors dotenv express http-auth lodash mongodb pino xml xmldom
     "distclean": "gulp dist-clean && gulp build && gulp copy-production",
     "ourcompile": "tsc src/index.ts",
     "compile": "gulp dist-clean && gulp build && gulp copy-production",
+    "start": "cd dist && NODE_ENV=production node index",
     "dev": "gulp build && gulp copy && cd dist && node index | pino -o 'short'",
     "test": "node build.js && mocha  --extension [\"ts\"] 'test/**/*.ts'"
   },
@@ -137,5 +138,12 @@ filter: any
 ```
 in the argument list of *recordsQuery*, *identifiersQuery* and *getRecord*.
 ## Compile again
+```
+npm run compile
+```
 Now it should compile.
-
+## Clean install and run
+```
+npm run ci
+npm run start
+```
