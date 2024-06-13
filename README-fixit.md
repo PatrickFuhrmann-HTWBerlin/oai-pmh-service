@@ -68,7 +68,7 @@ In the *gulpfile.js*
 * remove the talk definition 'gulp.task("dist-clean", function(done) {'
 * replace the above by
 ```
-:wq```
+```
 ### The 'pino' fix
 In the file : *src/server/logger.ts*
 Replace the 
