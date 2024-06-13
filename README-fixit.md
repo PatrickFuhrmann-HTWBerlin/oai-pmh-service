@@ -63,23 +63,12 @@ npm install
 ## Fix gulp 
 ### The 'del' fix
 * gulpfile still uses 'del'. We move to rimraf.
-In the gulpfile.js
+In the *gulpfile.js*
 * remove the 'var del = = require("del");' line
 * remove the talk definition 'gulp.task("dist-clean", function(done) {'
 * replace the above by
 ```
-const rimraf = require('rimraf');
-
-gulp.task("dist-clean", function(done) {
-
-try {
-  rimraf.sync('dist');
-} catch (err) {
-  console.error('Error deleting files:', err);
-}
-done();
-});
-```
+:wq```
 ### The 'pino' fix
 In the file : *src/server/logger.ts*
 Replace the 
@@ -147,3 +136,11 @@ Now it should compile.
 npm run ci
 npm run start
 ```
+
+## Creating the Dockerfile
+To get an updated version of npm, 
+add the following line before the first RUN command in the Dockerfile.
+```
+RUN npm install -g npm@10.8.1
+```
+
