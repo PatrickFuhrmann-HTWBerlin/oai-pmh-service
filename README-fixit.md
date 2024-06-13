@@ -68,6 +68,18 @@ In the *gulpfile.js*
 * remove the talk definition 'gulp.task("dist-clean", function(done) {'
 * replace the above by
 ```
+const rimraf = require('rimraf');
+
+gulp.task("dist-clean", function(done) {
+
+try {
+  rimraf.sync('dist');
+} catch (err) {
+  console.error('Error deleting files:', err);
+}
+done();
+});
+
 ```
 ### The 'pino' fix
 In the file : *src/server/logger.ts*
